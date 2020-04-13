@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>RaspberryPi based Active Noise Reduction</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<meta name="robots" content="noindex">
+		<meta name="googlebot" content="noindex">
+		<!-- <meta name="google-site-verification" content="5DD0yqskS2g4gYixUQZnF7zZBo3ulGZbC_x3zUrXBmA" /> -->
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+		<section id="sidebar">
+			<div class="inner">
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="#one">Intro</a></li>
+						<li><a href="#two">Installation</a></li>
+						<li><a href="#three">Dependencies</a></li>
+						<li><a href="#four">Results</a></li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up intro-anc parallax">
+						<div class="inner">
+							<h1><span id=intro-color>This is:</span> Active Noise Cancellation<br><span class="subtext-anc"> Now for your <span id=intro-color>Raspberry</span></span></h1>							
+						</div>
+					</section>
+					<section id="one" class="wrapper style1 fullscreen fade-up">
+						<div class="inner">
+						<span class="image fit"><img src="images/hero.png" alt="" /></span>
+							<p><b><span id=intro-color>This project is just proof-of-concept. Do not see it as complete daily-use application</span></b><br></p>
+							<p>Whole application is based on JUCE's DemoRunner application. This is because it is convienient to be able to change sound cards without changing the code. Also with this solition I could implement additions such as adaptive filter visualizer or FFT visualizer. To be able to reduct noise I used FxLMS algorithm. I based the algorithm on ARM CMSIS DSP functions but I need to modify them to work propelly.</p>
+						</div>
+					</section>
+
+					<section id="two" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>Building application</h2>
+							<p>Go to folder containing Makefile and run build</p>
+							<code style=display:block;white-space:pre-wrap>cd examples/DemoRunner/Build/LinuxMakefile
+make CONFIG=Release CXX=clang++</code>							
+						</div>
+						</section>
+					<section id="three" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>Dependencies</h2>
+							<h3>System Requirements</h3>
+							<h4>Building JUCE Projects</h4>					
+							<nav>
+								<ul>
+									<li>macOS: macOS 10.11 and Xcode 7.3.1</li>
+									<li>Windows: Windows 8.1 and Visual Studio 2013 64-bit</li>
+									<li>Linux: GCC 4.8, clang</li>
+								</ul>
+							</nav>
+							<h4>Required hardware</h4>
+							<nav>
+								<ul>
+									<li>Raspberry Pi - model 3B/3B+</li>								
+									<li>I2S Microphones</li>
+									<li>I2S DAC</li>
+									<li>or I2S board containing DAC + stereo microphone input</li>
+								</ul>
+							</nav>
+						</div>
+						<div class="inner">							
+							<h3>JUCE Dependencies under Linux</h3>
+							<p>Install them by running</p>
+							<code style=display:block;white-space:pre-wrap>sudo apt-get install freeglut3-dev g++ libasound2-dev libcurl4-openssl-dev \
+								libfreetype6-dev libjack-jackd2-dev libx11-dev libxcomposite-dev \
+								libxcursor-dev libxinerama-dev libxrandr-dev mesa-common-dev \
+								webkit2gtk-4.0</code><br>
+							<h3>Clang compiler</h3>
+							<code style=display:block;white-space:pre-wrap>sudo apt-get install clang</code>
+							<br>
+							<h3>LADSPA Plugins installed</h3>
+							<p>To get rid of DC offset from microphones
+							<br><b><span id=intro-color>Note: If you don't have any DC offset you don't need to do that</span></b></p>
+							<code>apt-get install ladspa-sdk</code>							
+							<p>Then create a /etc/asound.conf file containing the following</p>
+							<code style=display:block;white-space:pre-wrap>pcm.plughp {
+    type ladspa
+    slave.pcm "plughw:X"
+    path "/usr/lib/ladspa"
+    capture_plugins [
+	{	
+		label hpf
+		id 1042
+        input {
+            contols [ 60 ]
+        }
+	}
+    {
+        label amp_mono
+        id 1048
+        input {
+            controls [ 30 ]
+        }
+    }
+    ]
+}
+
+pcm.hp {
+    type plug
+    slave.pcm plughp
+}
+							</code>
+							<br>
+							<p>Where plughw:X is your sound card containing microphones inputs. You can check it by running</p>
+							<code>arecord -l</code>																					
+						</div>
+						<div class="inner">
+							<h3>Check of low latency capabilities - <span id="intro-color"><a href="https://github.com/raboof/realtimeconfigquickscan">Realtime config quick scan</a></span></h3>
+							<code style=display:block;white-space:pre-wrap>git clone git://github.com/raboof/realtimeconfigquickscan.git
+cd realtimeconfigquickscan
+perl ./realTimeConfigQuickScan.pl</code>
+						</div>
+					</section>
+
+					<section id="four" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>Results</h2>
+							<h3>Application GUI</h3>
+							<span class="image GUI"><img src="images/GUI.webp" alt="" /></span>
+							<h3>UML Diagram</h3>
+							<span class="image fit"><img src="images/UML.png" alt="" /></span>
+							<h3>Street noise</h3>
+							<span class="image fit"><img src="images/street.png" alt="" /></span>
+							<h3>Metro noise</h3>
+							<span class="image fit"><img src="images/metro.png" alt="" /></span>
+							<h3>Cafe noise</h3>
+							<span class="image fit"><img src="images/cafe.png" alt="" /></span>
+							<h3>Sine tone</h3>
+							<span class="image fit"><img src="images/sin_440.png" alt="" /></span>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; All rights reserved.</li><li>Design: <a href="https://github.com/michalber">@michalber</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

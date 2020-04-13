@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>ESP32 Relay WiFi PCB design</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<meta name="robots" content="noindex">
+		<meta name="googlebot" content="noindex">
+		<!-- <meta name="google-site-verification" content="5DD0yqskS2g4gYixUQZnF7zZBo3ulGZbC_x3zUrXBmA" /> -->
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+		<section id="sidebar">
+			<div class="inner">
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>						
+						<li><a href="#one">About</a></li>
+						<li><a href="#two">Schematic</a></li>
+						<li><a href="#three">Structure</a></li>
+						<li><a href="#four">Layout</a></li>
+					</ul>
+				</nav>
+			</div>
+		</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up intro-relay parallax">
+						<div class="inner">
+							<h1><span id=intro-color>This is:</span> Wi-Fi Relay Board</h1>							
+						</div>
+					</section>
+					<section id="one" class="wrapper style1 fade-up">
+						<div class="inner">				
+							<h2>About project</h2>									
+							<p>The aim of this project was to design a device for external control
+								230V devices. It was done by operating the relay using ESP32 microprocessor. 
+								In addition, the module allows to measure energy consumption and handling 
+								a touch button for manual control of switching on and off the external device. 
+								It was necessary to design a power supply and energy measurement system, the operation of the relay and the microprocessor itself.
+						</div>
+					</section>
+
+					<section id="two" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>Block schematic</h2>
+							<p>The whole system consists of four main systems and one additional system which is detached from the whole. Going from the left we have the first connector, which is responsible for to supply 230V to the system. We have got a protection line here right away by using Y type anti-interference capacitors. Then we have the power system, energy measurement, microcontroller and relay, which is responsible for providing voltage to the output connector to which you connect the external device. The last one is a touch button, which can be used to manually turn the device on/off.</p>							
+							<span class="image fit"><img src="images/BlockSchematic.png" alt="" /></span>
+						</div>
+					</section>
+					<section id="three" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>Structure</h2>
+							<p>The device was designed on the basis of many similar plates of others producers. The board has two high-voltage connectors and one to connect an external button. In addition, the pads for programming, and to connect the ESP8266 microprocessor instead of ESP32. The design of the device should enable safe operation inside buildings. The target device is intended to be connected and hidden in an electrical box, but after it has been placed in a suitable housing, the device can be used outside the box, by bringing to it the right pair of cables.</p>							
+						</div>						
+					</section>
+					<section id="four" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>PCB Layout</h2>
+							<h3>Top layer</h3>
+							<span class="image fit"><img src="images/PCB_top.png" alt="" /></span>							
+							<h3>Bottom layer</h3>
+							<span class="image fit"><img src="images/PCB_bottom.png" alt="" /></span>							
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; All rights reserved.</li><li>Design: <a href="https://github.com/michalber">@michalber</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
