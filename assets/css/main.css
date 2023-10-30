@@ -2609,20 +2609,21 @@ input, select, textarea {
 			width: 100%;
 		}
 
-			.image.main img {
-				width: 100%;
-			}
+		.image.main img {
+			width: 100%;
+		}
 
 		.image.GUI {
 			display: block;	
 			margin: 0 0 2em 0;		
 			width: 100%;			
 		}
-			.image.GUI img {
-				margin-left: auto;
-				margin-right: auto;
-				width: 60%;
-			}
+		
+		.image.GUI img {
+			margin-left: auto;
+			margin-right: auto;
+			width: 60%;
+		}
 
 /* List */
 
